@@ -2,6 +2,8 @@ package com.zielniok.agot.view;
 
 import com.zielniok.agot.model.AGotGameModel;
 import com.zielniok.agot.model.Card;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -49,13 +51,18 @@ public class AGotBoardController {
         agotGameModel.drawInitialCards();
 
         List<Card> handP1 = agotGameModel.getHandP1();
-        addListOfCardsToHand(handP1, PLY1_SELECTOR_PREFIX);
+        ObservableList handP11 = FXCollections.observableList(handP1);
+
+        refreshHandCards(handP1, PLY1_SELECTOR_PREFIX);
 
         List<Card> handP2 = agotGameModel.getHandP2();
-        addListOfCardsToHand(handP2, PLY2_SELECTOR_PREFIX);
+        refreshHandCards(handP2, PLY2_SELECTOR_PREFIX);
 
         Node button = stage.getScene().getRoot().lookup("#startButton");
         button.setDisable(true);
+
+        handP2.remove(1);
+        refreshHandCards(handP2, PLY2_SELECTOR_PREFIX);
 
         //-------------------------------------------------------------
 
@@ -71,7 +78,28 @@ public class AGotBoardController {
 
     }
 
-    private void addListOfCardsToHand(List<Card> cards, String pl_prefix) {
+    private void refreshHandCards(List<Card> cards, String pl_prefix) {
+
+        HBox handHBox = (HBox) stage.getScene().getRoot().lookup("#" + pl_prefix + "Hand");
+        refreshCardHbox(cards, handHBox);
+
+    }
+
+    private void refreshCharInPlayCards(List<Card> cards, String pl_prefix) {
+
+        HBox handHBox = (HBox) stage.getScene().getRoot().lookup("#" + pl_prefix + "Char");
+        refreshCardHbox(cards, handHBox);
+    }
+
+    private void refreshLocInPlayCards(List<Card> cards, String pl_prefix) {
+
+        HBox handHBox = (HBox) stage.getScene().getRoot().lookup("#" + pl_prefix + "Loc");
+        refreshCardHbox(cards, handHBox);
+    }
+
+    private void refreshCardHbox(List<Card> cards, HBox hBox) {
+
+        hBox.getChildren().clear();
 
         for (Card c: cards) {
             Image i = imgRepo.getImage(c);
@@ -85,39 +113,8 @@ public class AGotBoardController {
             iv.setPreserveRatio(true);
             iv.setFitHeight(120);
 
-            HBox handHBox = (HBox) stage.getScene().getRoot().lookup("#" + pl_prefix + "Hand");
-            handHBox.getChildren().add(iv);
+            hBox.getChildren().add(iv);
 
         }
-
-//        for (Card c: cards) {
-//            Image i = imgRepo.getImage(c);
-//            ImageView iv = new ImageView(i);
-//            iv.setPreserveRatio(true);
-//            iv.setFitHeight(120);
-//
-//            //HBox handHBox = (HBox) stage.getScene().getRoot().lookup("#" + pl_prefix + "Hand");
-//            //handHBox.getChildren().add(iv);
-//            //HBox loc = (HBox) stage.getScene().getRoot().lookup("#" + pl_prefix + "Loc");
-//            //loc.getChildren().add(iv);
-//            HBox chara = (HBox) stage.getScene().getRoot().lookup("#" + pl_prefix + "Char");
-//            chara.getChildren().add(iv);
-//
-//        }
-//
-//        for (Card c: cards) {
-//            Image i = imgRepo.getImage(c);
-//            ImageView iv = new ImageView(i);
-//            iv.setPreserveRatio(true);
-//            iv.setFitHeight(120);
-//
-//            //HBox handHBox = (HBox) stage.getScene().getRoot().lookup("#" + pl_prefix + "Hand");
-//            //handHBox.getChildren().add(iv);
-//            HBox loc = (HBox) stage.getScene().getRoot().lookup("#" + pl_prefix + "Loc");
-//            loc.getChildren().add(iv);
-//            //HBox chara = (HBox) stage.getScene().getRoot().lookup("#" + pl_prefix + "Char");
-//            //chara.getChildren().add(iv);
-//
-//        }
     }
 }
