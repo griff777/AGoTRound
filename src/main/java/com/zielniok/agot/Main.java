@@ -23,23 +23,6 @@ public class Main extends Application {
 
         initRootLayout(primaryStage);
 
-
-
-        //Player top = new Player();
-        //Player bot = new Player();
-
-        //AGotBoardImpl board = new AGotBoardImpl(primaryStage, top, bot);
-
-
-
-        //board.setGold(top, 3);
-        //Card card = new Card();
-        //card.setName("HARRENHAL");
-        //board.addCardToHand(top,card);
-        //board.addCardToHand(top,card);
-        //board.addCardToHand(bot,card);
-
-
     }
 
     private void initRootLayout(Stage primaryStage) throws java.io.IOException {
@@ -55,6 +38,7 @@ public class Main extends Application {
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 1200, 800));
         primaryStage.show();
+
 
     }
 

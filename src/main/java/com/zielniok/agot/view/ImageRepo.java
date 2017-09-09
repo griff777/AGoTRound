@@ -11,7 +11,7 @@ public class ImageRepo {
     Map<String, Image> map = new HashMap<>();
 
     public ImageRepo() {
-        map.put("HARRENHAL", new Image("GT11_50.jpg"));
+        //map.put("HARRENHAL", new Image("GT11_50.jpg"));
         map.put("Ranging Party", new Image("01132.png"));
     }
 
