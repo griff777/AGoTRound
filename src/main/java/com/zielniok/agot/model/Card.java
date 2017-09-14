@@ -5,10 +5,45 @@ public class Card {
     private boolean knelt;
     private int cost;
     private int strenght;
+    int militaryIkon;
+    int intrigueIkon;
+    int powerIkon;
 
+    public Card (int pCost, int pMil, int pIntr, int pPow, int pStr){
+        cost = pCost;
+        militaryIkon = pMil;
+        intrigueIkon = pIntr;
+        powerIkon = pPow;
+        strenght = pStr;
+    }
 
     public Card(int cost){
-        this.cost = cost; }
+        this(cost, 0,0,0,0 );}
+
+
+    public int getMilitaryIkon() {
+        return militaryIkon;
+    }
+
+    public void setMilitaryIkon(int militaryIkon) {
+        this.militaryIkon = militaryIkon;
+    }
+
+    public int getIntrigueIkon() {
+        return intrigueIkon;
+    }
+
+    public void setIntrigueIkon(int intrigueIkon) {
+        this.intrigueIkon = intrigueIkon;
+    }
+
+    public int getPowerIkon() {
+        return powerIkon;
+    }
+
+    public void setPowerIkon(int powerIkon) {
+        this.powerIkon = powerIkon;
+    }
 
     public int getCost() {
         return cost;
