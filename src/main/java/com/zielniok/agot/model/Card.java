@@ -3,6 +3,20 @@ package com.zielniok.agot.model;
 public class Card {
     private String name;
     private boolean knelt;
+    private int cost;
+    private int strenght;
+
+
+    public Card(int cost){
+        this.cost = cost; }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
 
     public boolean isKnelt() {
         return knelt;

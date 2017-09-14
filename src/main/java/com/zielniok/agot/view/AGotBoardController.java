@@ -2,17 +2,16 @@ package com.zielniok.agot.view;
 
 import com.zielniok.agot.model.AGotGameModel;
 import com.zielniok.agot.model.Card;
-import com.zielniok.agot.model.GamePhase;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
+import com.zielniok.agot.model.Player;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.List;
@@ -61,6 +60,10 @@ public class AGotBoardController {
         refreshHandCards(handP2, PLY2_SELECTOR_PREFIX);
         refreshPhaseLabel();
 
+        finishMarshalling();
+
+
+
         // TODO:mulligan
 
         //TODO:plot    ----   First player is top player
@@ -81,10 +84,16 @@ public class AGotBoardController {
 
     }
 
-    private void refreshPhaseLabel() {
-        Label phaseLabel = (Label)stage.getScene().getRoot().lookup("#phaseLabel");
 
-        phaseLabel.setText(agotGameModel.getCurrentPhase().toString());
+
+    private void refreshPhaseLabel() {
+        Label topPhaseLabel = (Label)stage.getScene().getRoot().lookup("#topPhaseLabel");
+
+        topPhaseLabel.setText(agotGameModel.getCurrentPhase().toString());
+
+        Label botPhaseLabel = (Label)stage.getScene().getRoot().lookup("#botPhaseLabel");
+
+        botPhaseLabel.setText(agotGameModel.getCurrentPhase().toString());
     }
 
     private void refreshHandCards(List<Card> cards, String pl_prefix) {
@@ -126,15 +135,53 @@ public class AGotBoardController {
 
     private void handleCardClick(Card c) {
 
-        if (agotGameModel.getCurrentPhase() == GamePhase.MARSHALLING) {
-            if ((agotGameModel.whoIsActive() == agotGameModel.getP1() && agotGameModel.getHandP1().contains(c)) ||
-                    (agotGameModel.whoIsActive() == agotGameModel.getP2() && agotGameModel.getHandP2().contains(c)))
-                {
-                    System.out.println(c.getName());
-                    agotGameModel.marshallCard(c);
-                    refreshCharInPlayCards(agotGameModel.getCharPlayareaP1(), PLY1_SELECTOR_PREFIX);
-                    refreshHandCards(agotGameModel.getHandP1(), PLY1_SELECTOR_PREFIX);
-                }
+        if (agotGameModel.checkIfAvailableForClick(c)) {
+            System.out.println(c.getName());
+            agotGameModel.marshallCard(c);
+            Player p = agotGameModel.whoIsActive();
+            if (p == agotGameModel.getP1()) {
+                refreshCharInPlayCards(agotGameModel.getCharPlayareaP1(), PLY1_SELECTOR_PREFIX);
+                refreshHandCards(agotGameModel.getHandP1(), PLY1_SELECTOR_PREFIX);
+            }
+            else if (p == agotGameModel.getP2()){
+                refreshCharInPlayCards(agotGameModel.getCharPlayareaP2(), PLY2_SELECTOR_PREFIX);
+                refreshHandCards(agotGameModel.getHandP2(), PLY2_SELECTOR_PREFIX);
+            }
         }
     }
+    private void finishMarshalling() {
+
+        Button topFinishMarshallingButton = new Button("FINISH MARSHALLING");
+        VBox topVboxButtonArea = (VBox) stage.getScene().getRoot().lookup("#topComWin");
+        topVboxButtonArea.getChildren().add(topFinishMarshallingButton);
+        topFinishMarshallingButton.setDisable(true);
+
+        Button bottomFinishMarshallingButton = new Button("FINISH MARSHALLING");
+        VBox botVboxButtonArea = (VBox) stage.getScene().getRoot().lookup("#botComWin");
+        botVboxButtonArea.getChildren().add(bottomFinishMarshallingButton);
+        bottomFinishMarshallingButton.setDisable(true);
+
+        if (agotGameModel.whoIsActive()==agotGameModel.getP1()) {
+
+            topFinishMarshallingButton.setDisable(false);
+            topFinishMarshallingButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->
+            {
+                agotGameModel.finishMarshallingActions();
+                refreshPhaseLabel();
+                topFinishMarshallingButton.setDisable(true);
+                bottomFinishMarshallingButton.setDisable(false);
+            });
+        }
+        if (agotGameModel.whoIsActive()==agotGameModel.getP2()) {
+
+            bottomFinishMarshallingButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->
+            {
+                agotGameModel.finishMarshallingActions();
+                refreshPhaseLabel();
+                bottomFinishMarshallingButton.setDisable(true);
+            });
+        }
+
+    }
+
 }

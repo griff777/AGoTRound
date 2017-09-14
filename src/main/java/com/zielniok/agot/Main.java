@@ -35,7 +35,7 @@ public class Main extends Application {
         controller.setImgRepo(imgRepo);
         controller.setStage(primaryStage);
 
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("AGotRound");
         primaryStage.setScene(new Scene(root, 1200, 800));
         primaryStage.show();
 

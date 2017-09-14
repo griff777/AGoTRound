@@ -1,7 +1,6 @@
 package com.zielniok.agot.model;
 
-import javafx.collections.ObservableList;
-import org.omg.CORBA.MARSHAL;
+import com.sun.org.apache.xpath.internal.SourceTree;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,17 +13,33 @@ public class AGotGameModel {
     private List<Card> handP2 = new ArrayList<>();
 
     private List<Card> charPlayareaP1 = new ArrayList<>();
+    private List<Card> charPlayareaP2 = new ArrayList<>();
 
-    private Player p1 = new Player();
-    private Player p2 = new Player();
+    private Player p1 = new Player(new Plot(8, 4, 1, 7));
+    private Player p2 = new Player(new Plot(5, 3, 1, 6));
 
-    public AGotGameModel(){
+    private static int marshallingCount;
+
+    public static int getMarshallingCount() {
+        return marshallingCount;
+    }
+
+    public static void setMarshallingCount(int marshallingCount) {
+        AGotGameModel.marshallingCount = marshallingCount;
+    }
+
+    public void incrementMoveCount() {
+        setMarshallingCount(getMarshallingCount() + 1);
+    }
+
+    public AGotGameModel() {
         p1.setActive(true);
     }
 
     public GamePhase getCurrentPhase() {
         return currentPhase;
     }
+
     public void setCurrentPhase(GamePhase currentPhase) {
         this.currentPhase = currentPhase;
     }
@@ -46,7 +61,6 @@ public class AGotGameModel {
     }
 
 
-
     public List<Card> getCharPlayareaP1() {
         return charPlayareaP1;
     }
@@ -62,8 +76,6 @@ public class AGotGameModel {
     public void setCharPlayareaP2(List<Card> charPlayareaP2) {
         this.charPlayareaP2 = charPlayareaP2;
     }
-
-    private List<Card> charPlayareaP2 = new ArrayList<>();
 
 
     public List<Card> getHandP1() {
@@ -83,24 +95,24 @@ public class AGotGameModel {
     }
 
     public void newGame() {
-        
+
     }
 
     public void drawInitialCards() {
 
-        for (int i = 0; i < 4 ; i++) {
-            Card c = new Card();
+        for (int i = 0; i < 4; i++) {
+            Card c = new Card(4);
             c.setName("Ranging Party");
             handP1.add(c);
         }
 
-        for (int i = 0; i < 4 ; i++) {
-            Card c = new Card();
+        for (int i = 0; i < 4; i++) {
+            Card c = new Card(4);
             c.setName("Ranging Party");
             handP2.add(c);
         }
 
-        currentPhase = GamePhase.MARSHALLING;
+        setCurrentPhase(GamePhase.MARSHALLING);
     }
 
     public void setUpDrawDeck() {
@@ -108,14 +120,58 @@ public class AGotGameModel {
     }
 
     public void marshallCard(Card c) {
-        if (currentPhase != GamePhase.MARSHALLING) throw new IllegalStateException();
-        handP1.remove(c);
-        charPlayareaP1.add(c);
-    }
+        try {
+            if (currentPhase != GamePhase.MARSHALLING) throw new IllegalStateException();
+            if (p1.isActive() && c.getCost() <= p1.getGoldValue()) {
+                handP1.remove(c);
+                charPlayareaP1.add(c);
+                p1.refreshGoldValue(p1.getGoldValue() - c.getCost());
+            } else if (p2.isActive() && c.getCost() <= p2.getGoldValue()) {
+                handP2.remove(c);
+                charPlayareaP2.add(c);
+                p2.refreshGoldValue(p2.getGoldValue() - c.getCost());
+            } else throw new IllegalStateException();
+        }
+        catch(IllegalStateException e) {
+            System.out.println("Not enaught gold");
+        }
+
+}
 
     public Player whoIsActive(){
         if (p1.isActive())  return p1;
-        else if (p2.isActive()) return p2;
+        if (p2.isActive()) return p2;
         else throw new IllegalStateException();
+    }
+
+    public boolean checkIfAvailableForClick(Card c){
+
+        if (getCurrentPhase() == GamePhase.MARSHALLING) {
+            if ((whoIsActive() == p1 && getHandP1().contains(c)) ||
+                    (whoIsActive() == p2 && getHandP2().contains(c)))
+            return true;
+        }
+        return false;
+    }
+    public void finishMarshallingActions() {
+        changeActivePlayer();
+        marshallingCount++;
+
+        if (getCurrentPhase()== GamePhase.MARSHALLING && marshallingCount >= 2) {
+            setCurrentPhase(GamePhase.CHALLENGE);
+        }
+
+    }
+    public void changeActivePlayer(){
+        if (p1.isActive()) {
+            p1.setActive(false);
+            p2.setActive(true);
+        }
+        else if (p2.isActive()) {
+            p2.setActive(false);
+            p1.setActive(true);
+        }
+        else throw new IllegalStateException();
+
     }
 }
