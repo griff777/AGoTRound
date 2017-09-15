@@ -20,14 +20,14 @@ public class AGotGameModel {
 
     private List<Integer> challengeStr = new ArrayList();
 
-    private static int marshallingCount;
+    private int marshallingCount;
 
-    public static int getMarshallingCount() {
+    public int getMarshallingCount() {
         return marshallingCount;
     }
 
-    public static void setMarshallingCount(int marshallingCount) {
-        AGotGameModel.marshallingCount = marshallingCount;
+    public void setMarshallingCount(int pMarshallingCount) {
+        marshallingCount = pMarshallingCount;
     }
 
     public void incrementMoveCount() {
