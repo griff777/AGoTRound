@@ -3,6 +3,8 @@ package com.zielniok.agot.view;
 import com.zielniok.agot.model.AGotGameModel;
 import com.zielniok.agot.model.Card;
 import com.zielniok.agot.model.Player;
+import javafx.animation.FadeTransition;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -13,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.List;
 
@@ -127,6 +130,24 @@ public class AGotBoardController {
             });
             iv.setPreserveRatio(true);
             iv.setFitHeight(120);
+
+            iv.setOnMouseEntered(event -> {
+                FadeTransition ft = new FadeTransition(Duration.millis(500), iv);
+                ft.setFromValue(1.0);
+                ft.setToValue(0.5);
+                //ft.setCycleCount(Timeline.INDEFINITE);
+                //ft.setAutoReverse(true);
+                ft.play();
+            });
+
+            iv.setOnMouseExited(event -> {
+                FadeTransition ft = new FadeTransition(Duration.millis(500), iv);
+                ft.setFromValue(0.5);
+                ft.setToValue(1.0);
+                //ft.setCycleCount(Timeline.INDEFINITE);
+                //ft.setAutoReverse(true);
+                ft.play();
+            });
 
             hBox.getChildren().add(iv);
 
