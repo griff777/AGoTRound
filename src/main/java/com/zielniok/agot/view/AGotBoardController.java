@@ -151,6 +151,18 @@ public class AGotBoardController {
     }
     private void finishMarshalling() {
 
+        Button bottomFinishMarshallingButton = new Button("FINISH MARSHALLING");
+        VBox botVboxButtonArea = (VBox) stage.getScene().getRoot().lookup("#botComWin");
+        botVboxButtonArea.getChildren().add(bottomFinishMarshallingButton);
+        bottomFinishMarshallingButton.setDisable(true);
+
+        bottomFinishMarshallingButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->
+        {
+            agotGameModel.finishMarshallingActions();
+            refreshPhaseLabel();
+            bottomFinishMarshallingButton.setDisable(true);
+        });
+
         Button topFinishMarshallingButton = new Button("FINISH MARSHALLING");
         VBox topVboxButtonArea = (VBox) stage.getScene().getRoot().lookup("#topComWin");
         topVboxButtonArea.getChildren().add(topFinishMarshallingButton);
@@ -159,18 +171,10 @@ public class AGotBoardController {
                 agotGameModel.finishMarshallingActions();
                 refreshPhaseLabel();
                 topFinishMarshallingButton.setDisable(true);
+                bottomFinishMarshallingButton.setDisable(false);
             });
 
-        Button bottomFinishMarshallingButton = new Button("FINISH MARSHALLING");
-        VBox botVboxButtonArea = (VBox) stage.getScene().getRoot().lookup("#botComWin");
-        botVboxButtonArea.getChildren().add(bottomFinishMarshallingButton);
 
-        bottomFinishMarshallingButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->
-            {
-                agotGameModel.finishMarshallingActions();
-                refreshPhaseLabel();
-                bottomFinishMarshallingButton.setDisable(true);
-            });
     }
 
 }

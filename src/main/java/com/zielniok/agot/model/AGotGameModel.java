@@ -18,6 +18,8 @@ public class AGotGameModel {
     private Player p1 = new Player(new Plot(8, 4, 1, 7));
     private Player p2 = new Player(new Plot(5, 3, 1, 6));
 
+    private List<Integer> challengeStr = new ArrayList();
+
     private static int marshallingCount;
 
     public static int getMarshallingCount() {
@@ -172,6 +174,16 @@ public class AGotGameModel {
             p1.setActive(true);
         }
         else throw new IllegalStateException();
+
+    }
+    public void committeForChallenge(Card c, ChallengeType cht){
+
+        switch (cht){
+            case MILLITARY: {
+                if (c.getMilitaryIkon() != 0 ) challengeStr.add(c.getStrenght()); break;}
+            case INTRIGUE:
+            case POWER:
+        }
 
     }
 }

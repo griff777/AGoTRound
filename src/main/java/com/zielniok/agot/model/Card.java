@@ -4,6 +4,7 @@ public class Card {
     private String name;
     private boolean knelt;
     private int cost;
+
     private int strenght;
     int militaryIkon;
     int intrigueIkon;
@@ -44,6 +45,15 @@ public class Card {
     public void setPowerIkon(int powerIkon) {
         this.powerIkon = powerIkon;
     }
+
+    public int getStrenght() {
+        return strenght;
+    }
+
+    public void setStrenght(int strenght) {
+        this.strenght = strenght;
+    }
+
 
     public int getCost() {
         return cost;
