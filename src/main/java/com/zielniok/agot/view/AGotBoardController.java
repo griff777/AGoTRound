@@ -2,6 +2,7 @@ package com.zielniok.agot.view;
 
 import com.zielniok.agot.model.AGotGameModel;
 import com.zielniok.agot.model.Card;
+import com.zielniok.agot.model.ChallengeType;
 import com.zielniok.agot.model.Player;
 import javafx.animation.FadeTransition;
 import javafx.animation.Timeline;
@@ -177,25 +178,80 @@ public class AGotBoardController {
         botVboxButtonArea.getChildren().add(bottomFinishMarshallingButton);
         bottomFinishMarshallingButton.setDisable(true);
 
+        Button topFinishMarshallingButton = new Button("FINISH MARSHALLING");
+        VBox topVboxButtonArea = (VBox) stage.getScene().getRoot().lookup("#topComWin");
+        topVboxButtonArea.getChildren().add(topFinishMarshallingButton);
+
         bottomFinishMarshallingButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->
         {
             agotGameModel.finishMarshallingActions();
             refreshPhaseLabel();
             bottomFinishMarshallingButton.setDisable(true);
+            botVboxButtonArea.getChildren().remove(bottomFinishMarshallingButton);
+            topVboxButtonArea.getChildren().remove(topFinishMarshallingButton);
+            challengesPhaseBegins();
         });
 
-        Button topFinishMarshallingButton = new Button("FINISH MARSHALLING");
-        VBox topVboxButtonArea = (VBox) stage.getScene().getRoot().lookup("#topComWin");
-        topVboxButtonArea.getChildren().add(topFinishMarshallingButton);
+
         topFinishMarshallingButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->
             {
                 agotGameModel.finishMarshallingActions();
                 refreshPhaseLabel();
                 topFinishMarshallingButton.setDisable(true);
                 bottomFinishMarshallingButton.setDisable(false);
+
             });
+    }
+
+    public void challengesPhaseBegins() {
+
+        VBox botVboxButtonArea = (VBox) stage.getScene().getRoot().lookup("#botComWin");
+        botVboxButtonArea.setPrefWidth(100);
+
+        Button bottomMillitaryButton = new Button("MILLITARY");
+        bottomMillitaryButton.setMinWidth(botVboxButtonArea.getPrefWidth());
+        Button bottomPowerButton = new Button("POWER");
+        bottomPowerButton.setMinWidth(botVboxButtonArea.getPrefWidth());
+        Button bottomFinChalButton = new Button("FINISH CHALENGES");
+        bottomFinChalButton.setMinWidth(botVboxButtonArea.getPrefWidth());
+        bottomFinChalButton.setMaxWidth(botVboxButtonArea.getPrefWidth());
+
+        botVboxButtonArea.getChildren().addAll(bottomMillitaryButton, bottomPowerButton, bottomFinChalButton);
+        bottomMillitaryButton.setDisable(true);
+        bottomPowerButton.setDisable(true);
+        bottomFinChalButton.setDisable(true);
 
 
+        VBox topVboxButtonArea = (VBox) stage.getScene().getRoot().lookup("#topComWin");
+        topVboxButtonArea.setPrefWidth(100);
+
+        Button topMillitaryButton = new Button("MILLITARY");
+        topMillitaryButton.setMinWidth(topVboxButtonArea.getPrefWidth());
+        Button topPowerButton = new Button("POWER");
+        topPowerButton.setMinWidth(topVboxButtonArea.getPrefWidth());
+        Button topFinChalButton = new Button("FINISH CHALENGES");
+        topFinChalButton.setMinWidth(botVboxButtonArea.getPrefWidth());
+        topFinChalButton.setMaxWidth(botVboxButtonArea.getPrefWidth());
+
+        topVboxButtonArea.getChildren().addAll(topMillitaryButton, topPowerButton, topFinChalButton);
+
+        topMillitaryButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            List<Card> list = agotGameModel.checkIfAvForMilChal(agotGameModel.getP1(), ChallengeType.MILLITARY);
+            for (Card c : list) System.out.println(c);
+            topMillitaryButton.setDisable(true);
+
+        });
+
+        topFinChalButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            agotGameModel.changeActivePlayer();
+            topMillitaryButton.setDisable(true);
+            topPowerButton.setDisable(true);
+            topFinChalButton.setDisable(true);
+            bottomMillitaryButton.setDisable(false);
+            bottomPowerButton.setDisable(false);
+            bottomFinChalButton.setDisable(false);
+
+        });
     }
 
 }

@@ -6,15 +6,15 @@ public class Card {
     private int cost;
 
     private int strenght;
-    int militaryIkon;
-    int intrigueIkon;
-    int powerIkon;
+    int militaryIcon;
+    int intrigueIcon;
+    int powerIcon;
 
     public Card (int pCost, int pMil, int pIntr, int pPow, int pStr){
         cost = pCost;
-        militaryIkon = pMil;
-        intrigueIkon = pIntr;
-        powerIkon = pPow;
+        militaryIcon = pMil;
+        intrigueIcon = pIntr;
+        powerIcon = pPow;
         strenght = pStr;
     }
 
@@ -22,28 +22,28 @@ public class Card {
         this(cost, 0,0,0,0 );}
 
 
-    public int getMilitaryIkon() {
-        return militaryIkon;
+    public int getMilitaryIcon() {
+        return militaryIcon;
     }
 
-    public void setMilitaryIkon(int militaryIkon) {
-        this.militaryIkon = militaryIkon;
+    public void setMilitaryIcon(int militaryIcon) {
+        this.militaryIcon = militaryIcon;
     }
 
-    public int getIntrigueIkon() {
-        return intrigueIkon;
+    public int getIntrigueIcon() {
+        return intrigueIcon;
     }
 
-    public void setIntrigueIkon(int intrigueIkon) {
-        this.intrigueIkon = intrigueIkon;
+    public void setIntrigueIcon(int intrigueIcon) {
+        this.intrigueIcon = intrigueIcon;
     }
 
-    public int getPowerIkon() {
-        return powerIkon;
+    public int getPowerIcon() {
+        return powerIcon;
     }
 
-    public void setPowerIkon(int powerIkon) {
-        this.powerIkon = powerIkon;
+    public void setPowerIcon(int powerIcon) {
+        this.powerIcon = powerIcon;
     }
 
     public int getStrenght() {

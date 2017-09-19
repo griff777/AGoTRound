@@ -1,7 +1,5 @@
 package com.zielniok.agot.model;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,13 +101,13 @@ public class AGotGameModel {
     public void drawInitialCards() {
 
         for (int i = 0; i < 4; i++) {
-            Card c = new Card(4);
+            Card c = new Card(4, 1, 0, 1, 5);
             c.setName("Ranging Party");
             handP1.add(c);
         }
 
         for (int i = 0; i < 4; i++) {
-            Card c = new Card(4);
+            Card c = new Card(4, 1, 0, 1, 5);
             c.setName("Ranging Party");
             handP2.add(c);
         }
@@ -133,57 +131,74 @@ public class AGotGameModel {
                 charPlayareaP2.add(c);
                 p2.refreshGoldValue(p2.getGoldValue() - c.getCost());
             } else throw new IllegalStateException();
-        }
-        catch(IllegalStateException e) {
+        } catch (IllegalStateException e) {
             System.out.println("Not enaught gold");
         }
 
-}
+    }
 
-    public Player whoIsActive(){
-        if (p1.isActive())  return p1;
+    public Player whoIsActive() {
+        if (p1.isActive()) return p1;
         if (p2.isActive()) return p2;
         else throw new IllegalStateException();
     }
 
-    public boolean checkIfAvailableForClick(Card c){
+    public boolean checkIfAvailableForClick(Card c) {
 
         if (getCurrentPhase() == GamePhase.MARSHALLING) {
             if ((whoIsActive() == p1 && getHandP1().contains(c)) ||
                     (whoIsActive() == p2 && getHandP2().contains(c)))
-            return true;
+                return true;
         }
         return false;
     }
+
     public void finishMarshallingActions() {
         changeActivePlayer();
         marshallingCount++;
 
-        if (getCurrentPhase()== GamePhase.MARSHALLING && marshallingCount >= 2) {
+        if (getCurrentPhase() == GamePhase.MARSHALLING && marshallingCount >= 2) {
             setCurrentPhase(GamePhase.CHALLENGE);
         }
 
     }
-    public void changeActivePlayer(){
+
+    public void changeActivePlayer() {
         if (p1.isActive()) {
             p1.setActive(false);
             p2.setActive(true);
-        }
-        else if (p2.isActive()) {
+        } else if (p2.isActive()) {
             p2.setActive(false);
             p1.setActive(true);
-        }
-        else throw new IllegalStateException();
+        } else throw new IllegalStateException();
 
     }
-    public void committeForChallenge(Card c, ChallengeType cht){
 
-        switch (cht){
+    public void committeForChallenge(Card c, ChallengeType cht) {
+
+        switch (cht) {
             case MILLITARY: {
-                if (c.getMilitaryIkon() != 0 ) challengeStr.add(c.getStrenght()); break;}
+                if (c.getMilitaryIcon() != 0) challengeStr.add(c.getStrenght());
+                break;
+            }
             case INTRIGUE:
             case POWER:
         }
 
+    }
+
+    public List<Card> checkIfAvForMilChal(Player p, ChallengeType cht) {
+
+        List<Card> cardsForThisChal = new ArrayList<>();
+
+        switch (cht) {
+                case MILLITARY:
+                    for (Card c : (p == getP1()) ? charPlayareaP1 : charPlayareaP2)
+                        if (c.getMilitaryIcon() > 0) cardsForThisChal.add(c);
+                case POWER:
+                    for (Card c : (p == getP1()) ? charPlayareaP1 : charPlayareaP2)
+                        if (c.getPowerIcon() > 0) cardsForThisChal.add(c);
+            }
+        return cardsForThisChal;
     }
 }
