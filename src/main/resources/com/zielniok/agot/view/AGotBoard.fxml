@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.zielniok.agot.view.AGotBoardController">
+   <top>
+      <HBox maxHeight="50.0" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #22222a;" BorderPane.alignment="TOP_CENTER">
+         <children>
+            <Button fx:id="startButton" contentDisplay="TOP" mnemonicParsing="false" onMouseClicked="#startClicked" text="START" textAlignment="CENTER">
+               <font>
+                  <Font name="Calibri Bold" size="20.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="10.0" top="7.0" />
+               </HBox.margin>
+            </Button>
+         </children></HBox>
+   </top>
+   <bottom>
+      <HBox alignment="BOTTOM_LEFT" maxHeight="50.0" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #22222a;" BorderPane.alignment="BOTTOM_CENTER" />
+   </bottom>
+   <center>
+      <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: red;">
+         <children>
+            <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #393946;" VBox.vgrow="ALWAYS">
+               <left>
+                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="150.0" BorderPane.alignment="TOP_CENTER">
+                     <children>
+                        <VBox fx:id="topComWin" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="150.0">
+                           <children>
+                              <Label fx:id="topPhaseLabel" textFill="#d5dee0" />
+                           </children>
+                        </VBox>
+                     </children></VBox>
+               </left>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <right>
+                  <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="150.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <HBox prefHeight="100.0" prefWidth="200.0" />
+                     </children>
+                  </VBox>
+               </right>
+               <center>
+                  <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <HBox fx:id="topHand" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="130.0" prefWidth="200.0" />
+                        <HBox fx:id="topLoc" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="130.0" prefWidth="200.0" />
+                        <HBox fx:id="topChar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="130.0" prefWidth="200.0" />
+                     </children>
+                  </VBox>
+               </center>
+            </BorderPane>
+            <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #4f4f64;" VBox.vgrow="ALWAYS">
+               <left>
+                  <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="150.0" BorderPane.alignment="BOTTOM_CENTER">
+                     <children>
+                        <VBox fx:id="botComWin" alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Label fx:id="botPhaseLabel" textFill="WHITE" />
+                           </children>
+                        </VBox>
+                     </children></VBox>
+               </left>
+               <right>
+                  <VBox alignment="BOTTOM_RIGHT" prefHeight="200.0" prefWidth="150.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <HBox prefHeight="100.0" prefWidth="200.0" />
+                     </children>
+                  </VBox>
+               </right>
+               <center>
+                  <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="BOTTOM_CENTER">
+                     <children>
+                        <HBox fx:id="botChar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="130.0" prefWidth="200.0" />
+                        <HBox fx:id="botLoc" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="130.0" prefWidth="200.0" />
+                        <HBox fx:id="botHand" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="130.0" prefWidth="200.0" />
+                     </children>
+                  </VBox>
+               </center>
+            </BorderPane>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
